@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Countdown</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(160deg, #eafff3 0%, #d4f7e0 50%, #c3f0d8 100%);
+      color: #1f4d3a;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      text-align: center;
+    }
+    #greeting {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #1f7a53;
+      margin-bottom: 0.25rem;
+    }
+    h1 {
+      font-weight: 500;
+      font-size: 1.1rem;
+      color: #4c8a6f;
+      margin-top: 0;
+      margin-bottom: 2rem;
+    }
+    #countdown {
+      display: flex;
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+    .unit {
+      background: #ffffffaa;
+      border-radius: 16px;
+      padding: 1rem 1.25rem;
+      box-shadow: 0 4px 14px rgba(31, 122, 83, 0.15);
+      backdrop-filter: blur(4px);
+    }
+    .value {
+      font-size: 2.6rem;
+      font-weight: 700;
+      color: #1f7a53;
+    }
+    .label {
+      font-size: 0.75rem;
+      color: #5c9a7d;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 0.25rem;
+    }
+    #done {
+      font-size: 1.5rem;
+      display: none;
+      margin-bottom: 2rem;
+    }
+    #repo-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.2rem;
+      background: #1f7a53;
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(31, 122, 83, 0.3);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    #repo-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(31, 122, 83, 0.4);
+    }
+    #repo-link svg {
+      width: 18px;
+      height: 18px;
+      fill: #ffffff;
+    }
+  </style>
+</head>
+<body>
+  <!-- Change the greeting, title text, target date, and repo link below -->
+  <div id="greeting">Hey there! 👋</div>
+  <h1 id="title">Counting down to New Year 2027</h1>
+
+  <div id="countdown">
+    <div class="unit"><div class="value" id="days">--</div><div class="label">Days</div></div>
+    <div class="unit"><div class="value" id="hours">--</div><div class="label">Hours</div></div>
+    <div class="unit"><div class="value" id="minutes">--</div><div class="label">Minutes</div></div>
+    <div class="unit"><div class="value" id="seconds">--</div><div class="label">Seconds</div></div>
+  </div>
+  <div id="done">🎉 It's here!</div>
+
+  <a id="repo-link" href="https://github.com/yourusername/yourrepo" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 16 16" aria-hidden="true">
+      <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+      0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
+      -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07
+      -1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82
+      .64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16
+      1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48
+      0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+    </svg>
+    View on GitHub
+  </a>
+
+  <script>
+    // ---- Change this to whatever you're counting down to ----
+    const TARGET_DATE_ISO = "2026-12-31T00:00:00";
+    // -----------------------------------------------------------
+
+    const target = new Date(TARGET_DATE_ISO).getTime();
+
+    function tick() {
+      const now = new Date().getTime();
+      const diff = target - now;
+
+      if (diff <= 0) {
+        document.getElementById("countdown").style.display = "none";
+        document.getElementById("done").style.display = "block";
+        clearInterval(timer);
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      document.getElementById("days").textContent = days;
+      document.getElementById("hours").textContent = String(hours).padStart(2, "0");
+      document.getElementById("minutes").textContent = String(minutes).padStart(2, "0");
+      document.getElementById("seconds").textContent = String(seconds).padStart(2, "0");
+    }
+
+    const timer = setInterval(tick, 1000);
+    tick();
+  </script>
+</body>
+</html>
